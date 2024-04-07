@@ -20,20 +20,21 @@ class Player(GameSprite):
         if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
     
-        if keys_pressed[K_s] and self.rect.y < 670:
+        if keys_pressed[K_s] and self.rect.y < 550:
             self.rect.y += self.speed
     def update1(self):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_o] and self.rect.y > 5:
             self.rect.y -= self.speed
     
-        if keys_pressed[K_l] and self.rect.y < 670:
+        if keys_pressed[K_l] and self.rect.y < 550:
             self.rect.y += self.speed
 
 #class Ball(GameSprite):
 
-rocket1 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e1.7534998815185405543786.png", 1, 300, 10, 100, 150)
-rocket2 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e1.7534998815185405543786.png", 1100, 300, 10, 100, 150)
+rocket1 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e1.7534998815185405543786.png", 1, 300, 10, 100, 200)
+rocket2 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e1.7534998815185405543786.png", 1100, 300, 10, 100, 200)
+ball = GameSprite ("a5660caa1b6a9d4cd15d99e12b943ffc.png", 500, 300, 10, 100, 100)
 
 window = display.set_mode((1200,720))
 display.set_caption("pingpong")
@@ -42,6 +43,8 @@ clock = time.Clock()
 FPS = 60
 game = True
 finish = False
+speed_x = 5
+speed_y = 5
 while game == True:
     for e in event.get():
         if e.type == QUIT:
@@ -52,5 +55,14 @@ while game == True:
         rocket1.update()
         rocket2.reset()
         rocket2.update1()
+        ball.reset()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.x > 1100 or ball.rect.x < 0:
+            speed_x *= -1
+        if  ball.rect.y > 620 or ball.rect.y < 0:
+            speed_y *= -1
+        if ball.rect.colliderect(rocket1.rect) or ball.rect.colliderect(rocket2.rect):
+            speed_x *= -1
         display.update()
-        time.delay(50)
+        clock.tick(60)
