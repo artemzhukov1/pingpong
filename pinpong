@@ -36,6 +36,7 @@ rocket1 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e
 rocket2 = Player("kisspng-table-tennis-racket-red-table-tennis-bat-5a83170a5c70e1.7534998815185405543786.png", 1100, 300, 10, 100, 200)
 ball = GameSprite ("a5660caa1b6a9d4cd15d99e12b943ffc.png", 500, 300, 10, 100, 100)
 
+font = font.SysFont('Times New Roman', 100)
 window = display.set_mode((1200,720))
 display.set_caption("pingpong")
 background = transform.scale(image.load("1615820031_12-p-fon-rassvet-16.jpg"), (1200,720))
@@ -58,8 +59,18 @@ while game == True:
         ball.reset()
         ball.rect.x += speed_x
         ball.rect.y += speed_y
-        if ball.rect.x > 1100 or ball.rect.x < 0:
-            speed_x *= -1
+        if ball.rect.x > 1100:
+            text_w1 = font.render(
+                "Выиграл 1 игрок", 1, (255,255,255)
+            )
+            window.blit(text_w1, (10, 50))
+            finish = True
+        if ball.rect.x < 0:
+            text_w2 = font.render(
+                "Выиграл 2 игрок", 1, (255,255,255)
+            )
+            window.blit(text_w2, (10, 50))
+            finish = True
         if  ball.rect.y > 620 or ball.rect.y < 0:
             speed_y *= -1
         if ball.rect.colliderect(rocket1.rect) or ball.rect.colliderect(rocket2.rect):
